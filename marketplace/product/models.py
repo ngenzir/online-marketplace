@@ -5,7 +5,6 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.db.models.signals import pre_save, post_save
-from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 # Create your models here.
 
@@ -24,7 +23,7 @@ class Product(models.Model):
 			null=True, 
 			upload_to=download_media_location,
 			storage=FileSystemStorage(location=settings.PROTECTED_ROOT))
-	title = models.CharField(max_length=30) #owiuerpoajsdlfkjasd;flkiu1p3o4u134123 ewjfa;sd
+	title = models.CharField(max_length=30) 
 	slug = models.SlugField(blank=True, unique=True)
 	description = models.TextField()
 	price = models.DecimalField(max_digits=100, decimal_places=2, default=9.99, null=True,) #100.00
