@@ -5,7 +5,6 @@ from django.views.generic.edit import FormMixin
 from django.views.generic.list import ListView
 from django.shortcuts import get_object_or_404
 
-
 from billing.models import Transaction
 from digitalmarket.mixins import LoginRequiredMixin
 from products.models import Product
@@ -13,7 +12,6 @@ from products.models import Product
 from .forms import NewSellerForm
 from .mixins import SellerAccountMixin
 from .models import SellerAccount
-
 
 
 class SellerProductDetailRedirectView(RedirectView):
