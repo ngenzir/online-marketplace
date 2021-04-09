@@ -130,11 +130,40 @@ def create_new_thumbnail (media_path, instance, owner_slug):
 	return True
 
 
+def product_post_save_receiver(sender, instance, created, *args, **kwargs):
+	if instance.media:
+		hd, hd_created = Thumbnail.objects.get_or_create(product=instance, type='hd')
+		sd, sd_created = Thumbnail.objects.get_or_create(product=instance, type='sd')
+		micro, micro_created = Thumbnail.objects.get_or_create(product=instance, type='micro')
+
+		hd_max = (500, 500)
+		sd_max = (350, 350)
+		micro_max = (150, 150)
+
+		media_path = instance.media.path
+		owner_slug = instance.slug
+		if hd_created:
+			created_new_thumb(media_path, hd, owner_slug, hd_max[0], hd_max[1])
+
+		if sd_created:
+			created_new_thumb(media_path, sd, owner_slug, sd_max[0], sd_max[1])
+
+		if micro_created:
+			created_new_thumb(media_path, micro, owner_slug, micro_max[0], micro_max[1])
 
 
 
+post_save.connect(product_post_save_receiver, sender=Product)
 
 
+class MyProducts(models.Model):
+	user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	products = models.ManyToManyField(Product, blank=True)
 
+	def __unicode__(self):
+		return "%s" %(self.product.count())
 
+	class Meta:
+		verbose_name ="My product"
+		verbose_name_plural = "My Products"
 
