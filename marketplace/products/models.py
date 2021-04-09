@@ -167,3 +167,15 @@ class MyProducts(models.Model):
 		verbose_name ="My product"
 		verbose_name_plural = "My Products"
 
+
+class ProductRating(models.Model):
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	product = models.ForeignKey(Product, on_delete=models.CASCADE)
+	rating = models.IntegerField(null=True, blank=True)
+	verified = models.BooleanField(default=False)
+
+	def __unicode__(self):
+		return "%s" %(self.rating)
+
+
+
