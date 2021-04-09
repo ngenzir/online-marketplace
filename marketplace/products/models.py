@@ -87,3 +87,19 @@ THUMB_CHOICES = (
 	)
 
 
+class Thumbnail(models.Model):
+	product = modles.ForeignKey(Product)
+	type = models.CharField(max_length=20, choices=THUMB_CHOICES, default='hd')
+	height = models.CharField(max_length=20, null=True, blank=True)
+	width = models.CharField(max_length=20, null=True, blank=True)
+	media = models.ImageField(
+		width_field="width",
+		height_field="height",
+		blank=True,
+		null=True,
+		upload_to=thumbanail_location)
+
+	def __unicode__(self):
+		return str(self.media.path)
+
+	
