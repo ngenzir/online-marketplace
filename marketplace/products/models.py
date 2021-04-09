@@ -77,3 +77,13 @@ def product_pre_save_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(product_pre_save_receiver, sender=Product)
 
 
+def thumbanail_location(instance, filename):
+	return "%s/%s" %(instance.product.slug, filename)
+
+THUMB_CHOICES = (
+	("hd", "HD"),
+	("sd", "SD"),
+	("micro", "Micro"),
+	)
+
+
