@@ -59,3 +59,21 @@ class Product(models.Model):
 
 	
 
+def create_slug(instance, new_slug=None):
+	slug = slugify(instance.title)
+	if new_slug is not None:
+		slug = new_slug
+	qs = Product.objects.filter(slug=slug)
+	exits = qs.exits()
+	if exists:
+		new_slug = "%s-%s" %(slug, qs.first().id)
+		return create_slug(instance, new_slug=new_slug)
+	return slug
+
+def product_pre_save_receiver(sender, instance, *args, **kwargs):
+	if not instance.slug:
+		instance.slug = create_slug(instance)
+
+pre_save.connect(product_pre_save_receiver, sender=Product)
+
+
